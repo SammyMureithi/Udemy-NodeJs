@@ -28,3 +28,45 @@ module.exports.getAllProducts = async ( req, res ) => {
     }
     return res.status( response.status ).send( response );
 }
+module.exports.getProductById = async ( req, res ) => {
+    let response = {...Constants.defaultServerResponse};
+    try {
+        const result = await productService.getProductById(req.params );
+        response.status = 200;
+        response.message = Constants.productMessage.PRODUCT_FETCHED;
+        response.body = result;
+    }
+    catch ( error ) {
+        response.message = error.message;
+        console.log( 'Something Went Wrong: Fetch getProductById', error );
+    }
+    return res.status( response.status ).send( response );
+}
+module.exports.updateProduct = async ( req, res ) => {
+    let response = {...Constants.defaultServerResponse};
+    try {
+        const result = await productService.updateProduct({id:req.params,updateInfo:req.body});
+        response.status = 200;
+        response.message = Constants.productMessage.PRODUCT_UPDATED;
+        response.body = result;
+    }
+    catch ( error ) {
+        response.message = error.message;
+        console.log( 'Something Went Wrong: Fetch getProductById', error );
+    }
+    return res.status( response.status ).send( response );
+}
+module.exports.deleteProduct = async ( req, res ) => {
+    let response = {...Constants.defaultServerResponse};
+    try {
+        const result = await productService.deleteProduct(req.params);
+        response.status = 200;
+        response.message = Constants.productMessage.PRODUCT_DELETED;
+        response.body = result;
+    }
+    catch ( error ) {
+        response.message = error.message;
+        console.log( 'Something Went Wrong: Fetch deleteProduct', error );
+    }
+    return res.status( response.status ).send( response );
+}
